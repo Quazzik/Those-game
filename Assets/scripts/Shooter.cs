@@ -6,7 +6,7 @@ public class CubeShooter : MonoBehaviour
     public GameObject bulletPrefab; // Префаб шара (пули)
     public Transform firePoint; // Точка, откуда будут выпускаться шары
     public float bulletSpeed = 10f; // Скорость шаров
-    public bool pressed = false;
+    private bool pressed = false;
 
     void Update()
     {
@@ -20,7 +20,6 @@ public class CubeShooter : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.T)) { pressed = false; }
         
         if (pressed) Shoot();
-
     }
 
     void Shoot()
