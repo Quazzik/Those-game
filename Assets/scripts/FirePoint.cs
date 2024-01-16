@@ -1,24 +1,33 @@
+using JetBrains.Annotations;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
+using UnityEditor.Presets;
 using UnityEngine;
 
-public class CubeShooter : MonoBehaviour
+public class FirePoint : MonoBehaviour
 {
+    private bool pressed;
+    private float nowTime = 0;
+
     public GameObject bulletPrefab; // Префаб шара (пули)
     public Transform firePoint; // Точка, откуда будут выпускаться шары
     public float bulletSpeed = 10f; // Скорость шаров
-    private bool pressed = false;
+    public float shootDelay = 5f;
 
     void Update()
     {
-        // Проверяем нажатие клавиши для стрельбы (в данном случае, r)
-        if (Input.GetKeyDown(KeyCode.R))
+        nowTime += Time.deltaTime;
+        if (nowTime >= shootDelay)
         {
+            nowTime = 0;
             Shoot();
         }
 
         if (Input.GetKeyDown(KeyCode.T)) { pressed = true; }
         if (Input.GetKeyUp(KeyCode.T)) { pressed = false; }
-        
+
         if (pressed) Shoot();
     }
 
@@ -29,7 +38,7 @@ public class CubeShooter : MonoBehaviour
 
         // Получаем компонент Rigidbody шара
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.AddComponent<BulletDelete>();
+        bulletRb.AddComponent<Bullet>();
 
         // Применяем силу к шару для движения вперед с определенной скоростью
         bulletRb.velocity = firePoint.forward * bulletSpeed;

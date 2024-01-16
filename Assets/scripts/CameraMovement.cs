@@ -35,7 +35,7 @@ public class CameraFollow : MonoBehaviour
 
         // Отражаем движение мыши по оси Y на вертикальном угле поворота камеры
         float mouseY = Input.GetAxis("Mouse Y");
-        verticalAngle += mouseY * rotationSpeed * 100 * Time.deltaTime;
+        verticalAngle -= mouseY * rotationSpeed * 100 * Time.deltaTime;
         verticalAngle = Mathf.Clamp(verticalAngle, -0f, 60f);
 
         transform.LookAt(target.position);
