@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
 
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * speedMultiplier * Time.deltaTime;
 
-        // Moving object
         transform.Translate(movement);
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -72,14 +71,9 @@ public class Player : MonoBehaviour
             isGrounded = true;
         }
 
-        // Проверяем, столкнулся ли текущий объект с другим
         if (collision.gameObject.tag == "BulletTag")
         {
             material.color = new Color(Random.value, Random.value, Random.value);
-            var vector = gameObject.transform.localScale;
-
-            //gameObject.transform.localScale = new Vector3(vector.x + 0.5f, vector.y + 0.5f, vector.z + 0.5f);
-            // Дополнительная логика при столкновении
         }
     }
 }

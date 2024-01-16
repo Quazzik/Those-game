@@ -1,9 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Unity.VisualScripting;
-using UnityEditor.Presets;
 using UnityEngine;
 
 public class FirePoint : MonoBehaviour
@@ -14,7 +9,7 @@ public class FirePoint : MonoBehaviour
     public GameObject bulletPrefab; // Префаб шара (пули)
     public Transform firePoint; // Точка, откуда будут выпускаться шары
     public float bulletSpeed = 10f; // Скорость шаров
-    public float shootDelay = 5f;
+    public float shootDelay = 5f; //задержка между выстрелами
 
     void Update()
     {
@@ -33,14 +28,11 @@ public class FirePoint : MonoBehaviour
 
     void Shoot()
     {
-        // Создаем экземпляр шара из префаба
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        bullet.AddComponent<Rigidbody>();
 
-        // Получаем компонент Rigidbody шара
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.AddComponent<Bullet>();
-
-        // Применяем силу к шару для движения вперед с определенной скоростью
-        bulletRb.velocity = firePoint.forward * bulletSpeed;
+        Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
+        bulletRB.useGravity = false;
+        bulletRB.velocity = firePoint.forward * bulletSpeed;
     }
 }

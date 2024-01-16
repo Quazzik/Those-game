@@ -6,7 +6,6 @@ public class Turret : MonoBehaviour
 {
     public float hp = 1f;
 
-    // Update is called once per frame
     void Update()
     {
         if (hp <= 0)
@@ -17,7 +16,7 @@ public class Turret : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Bullet")
+        if (collision.gameObject.tag == "BulletTag")
         {
             hp--;
         }

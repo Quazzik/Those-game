@@ -1,9 +1,10 @@
 using System;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 public class Bullet : MonoBehaviour
 {
-    private float lifetime = 5f;
-    private bool toClear = false;
+    private float lifetime = 0f;
+    public bool toClear = false;
     private float startX;
     private float startY;
     private float startZ;
@@ -19,7 +20,7 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         var position = transform.position;
-        if (ABSDiff(gameObject.transform.position.x,startX) ||
+        if (ABSDiff(gameObject.transform.position.x, startX) ||
             ABSDiff(gameObject.transform.position.y, startY) ||
             ABSDiff(gameObject.transform.position.z, startZ))
         {
@@ -40,10 +41,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Turret" && collision.gameObject.tag != "BulletTag")
-        {
+        if (gameObject.transform.position != new Vector3(startX,startY,startZ))
             toClear = true;
-        }
     }
 
     private bool ABSDiff(float a, float b)
