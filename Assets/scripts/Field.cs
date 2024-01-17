@@ -15,23 +15,15 @@ public class Field : MonoBehaviour
     public GameObject turretBoss;
     public GameObject CubeSurvivor;
 
-    public TextMeshProUGUI playerLvlText;
-    public TextMeshProUGUI playerXpText;
-    public TextMeshProUGUI summaryTimeText;
 
 
-    private float timeDelta = 1f;
-    private int playerLvl = 1;
-    private float playerXp = 0;
-    private float playerXpToNext = 120;
-    private float summaryTime = 0f;
+
+    private float timeDelta = 0f;
 
     void Update()
     {
         var newTime = Time.deltaTime;
-        summaryTime += newTime;
-        TimeSpan timeSpan = TimeSpan.FromSeconds(summaryTime);
-        summaryTimeText.text = string.Format("Time alive:\n {0:D2}:{1:D2}", (int)timeSpan.TotalMinutes, timeSpan.Seconds);
+
 
         timeDelta += newTime;
         if (timeDelta >= spawnSpeed)
@@ -40,17 +32,7 @@ public class Field : MonoBehaviour
             TryToSpawn();
         }
 
-        playerXp += newTime;
-        playerXpText.text = "XP: " + playerXp.ToString("F0");
-        if (playerXp >= playerXpToNext)
-        {
-            playerLvl++;
-            playerXp -= playerXpToNext;
-            playerXpToNext *= 2f;
 
-            playerLvlText.text = "LVL: " + playerLvl.ToString("F0");
-            playerXpText.text = "XP: " + playerXp.ToString("F0");
-        }
     }
 
     private void SpawnTurret(float cordX, float cordZ)
