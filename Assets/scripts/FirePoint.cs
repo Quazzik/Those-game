@@ -4,19 +4,25 @@ using UnityEngine;
 public class FirePoint : MonoBehaviour
 {
     private bool pressed;
-    private float nowTime = 0;
 
     public GameObject bulletPrefab; // Префаб шара (пули)
     public Transform firePoint; // Точка, откуда будут выпускаться шары
     public float bulletSpeed = 10f; // Скорость шаров
-    public float shootDelay = 5f; //задержка между выстрелами
+    private float shootDelay; // Текущая задержка между выстрелами
+    public float startShootDelay; // Начальная задержка между выстрелами
+    public float standartShootDelay = 5.0f; // Стандартная задержка между выстрелами
 
+    private void Start()
+    {
+        shootDelay = startShootDelay+standartShootDelay;
+        startShootDelay = 0;
+    }
     void Update()
     {
-        nowTime += Time.deltaTime;
-        if (nowTime >= shootDelay)
+        shootDelay -= Time.deltaTime;
+        if (shootDelay < 0)
         {
-            nowTime = 0;
+            shootDelay = standartShootDelay;
             Shoot();
         }
 

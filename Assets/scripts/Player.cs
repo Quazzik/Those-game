@@ -20,8 +20,10 @@ public class Player : MonoBehaviour
     private bool alive = true;
 
     private int hpSaver;
-    private int playerLvl = 1;
-    private float playerXp = 0;
+    //[HideInInspector]
+    public int playerLvl = 1;
+    [HideInInspector]
+    public float playerXp = 0;
     private float playerXpToNext = 120;
     private float summaryTime = 0f;
 
@@ -83,12 +85,12 @@ public class Player : MonoBehaviour
             totalTimeText.text = string.Format("Time alive:\n {0:D2}:{1:D2}", (int)timeSpan.TotalMinutes, timeSpan.Seconds);
 
             playerXp += newTime;
-            playerXpText.text = "XP: " + playerXp.ToString("F0");
+            playerXpText.text = "XP: " + playerXp.ToString("F0")+ "/" + playerXpToNext.ToString("F0");
             if (playerXp >= playerXpToNext)
             {
                 playerLvl++;
                 playerXp -= playerXpToNext;
-                playerXpToNext *= 2f;
+                playerXpToNext *= 1.2f;
 
                 playerLvlText.text = "LVL: " + playerLvl.ToString("F0");
                 playerXpText.text = "XP: " + playerXp.ToString("F0");
@@ -153,6 +155,7 @@ public class Player : MonoBehaviour
             {
                 var newVelocity = other.GetComponent<Rigidbody>().velocity * -1;
                 other.GetComponent<Rigidbody>().velocity = newVelocity;
+                other.tag = "reflectedBullet";
 
                 other.GetComponent<Bullet>().toClear = false;
             }else

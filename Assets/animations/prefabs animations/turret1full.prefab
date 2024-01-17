@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1571025737778321339}
-  - component: {fileID: 4690095999038743461}
   - component: {fileID: 7201131745415570337}
   - component: {fileID: 8894555724733972110}
   m_Layer: 0
@@ -37,14 +36,6 @@ Transform:
   - {fileID: 865041720978391998}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4690095999038743461
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605043274587384408}
-  m_Mesh: {fileID: -2432090755550338912, guid: 39b5169683e2dce439ae9a4b3640e074, type: 3}
 --- !u!54 &7201131745415570337
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -85,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 1
+  xpBonus: 0
 --- !u!1 &2659913748313265314
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +383,7 @@ MonoBehaviour:
   firePoint: {fileID: 3222457028689189662}
   bulletSpeed: 10
   shootDelay: 5
+  startShootDelay: 2
 --- !u!1 &7531280408665766831
 GameObject:
   m_ObjectHideFlags: 0
