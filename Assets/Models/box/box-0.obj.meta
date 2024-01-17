@@ -3,12 +3,16 @@ guid: 2acba86112a18e740bb2c53e7c3d5f29
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
+<<<<<<< Updated upstream
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: palette
     second: {fileID: 2100000, guid: af62e145971bcf74a88adbcc3d6d9b9c, type: 2}
+=======
+  externalObjects: {}
+>>>>>>> Stashed changes
   materials:
     materialImportMode: 2
     materialName: 0
@@ -42,6 +46,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
+<<<<<<< Updated upstream
     addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
@@ -50,6 +55,16 @@ ModelImporter:
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
+=======
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+>>>>>>> Stashed changes
     nodeNameCollisionStrategy: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
