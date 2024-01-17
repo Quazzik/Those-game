@@ -9,18 +9,11 @@ public class Player : MonoBehaviour
     public float speedMultiplier = 5f; // Speed velocity
     public float jumpForce = 5f; // Jump force
     public float rotationSpeed = 5f;
-    public int hp;
-    public int maxHP = 2;
-    private float defaultRegenTime = 120f;
-    public int defaultReflectionCooldown = 10;
-    public int defaultReflectionActive = 2;
-    public Material material;
 
-    private bool godmode = false;
     private bool isGrounded = false;
     private float horizontalInput;
     private float verticalInput;
-    private bool alive = true;
+    private bool reverseDirection = false;
 
     private float untilRegenTime;
     private int hpSaver;
@@ -142,7 +135,7 @@ public class Player : MonoBehaviour
                     reflectionCountdownTimer = defaultReflectionCooldown + defaultReflectionActive;
                 }
             }
-            // Поворот куба с помощью мыши
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
             transform.Rotate(Vector3.up, mouseX);
 
@@ -221,6 +214,24 @@ public class Player : MonoBehaviour
                 hp--;
                 other.GetComponent<Bullet>().toClear = true;
             }
+            material.color = new Color(Random.value, Random.value, Random.value);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            reverseDirection = !reverseDirection;
+            Debug.Log($"Changed parameter to {reverseDirection}");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BulletTag"))
+        {
+            var newVelocity = other.GetComponent<Rigidbody>().velocity * -1;
+            other.GetComponent<Rigidbody>().velocity = newVelocity;
+
+            other.GetComponent<Bullet>().toClear = false;
             material.color = new Color(Random.value, Random.value, Random.value);
         }
     }

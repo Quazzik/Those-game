@@ -9,40 +9,47 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Field : MonoBehaviour
 {
+    public float spawnSpeed = 10f;
     public GameObject turret1;
     public GameObject turret2;
     public GameObject turret3;
     public GameObject CubeSurvivor;
 
-    private GameObject playerObject;
-    private Transform playerTransform;
-    private int difficultyModifier;
-    private float spawnTime = 1f;
-    private float timeDelta = 50f;
-    private int defaultMaxEnemiesCount = 5;
+    public TextMeshProUGUI playerLvlText;
+    public TextMeshProUGUI playerXpText;
+    public TextMeshProUGUI summaryTimeText;
 
-    private void Start()
-    {
-        playerObject = GameObject.FindWithTag("Player");
-        playerTransform = playerObject.GetComponent<Transform>();
-    }
+
+    private float timeDelta = 1f;
+    private int playerLvl = 1;
+    private float playerXp = 0;
+    private float playerXpToNext = 120;
+    private float summaryTime = 0f;
 
     void Update()
     {
         var newTime = Time.deltaTime;
-
-        difficultyModifier = playerObject.GetComponent<Player>().playerLvl;
-        
-        var enemiesCount = GameObject.FindGameObjectsWithTag("Turret").Length;
+        summaryTime += newTime;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(summaryTime);
+        summaryTimeText.text = string.Format("Time alive:\n {0:D2}:{1:D2}", (int)timeSpan.TotalMinutes, timeSpan.Seconds);
 
         timeDelta += newTime;
         if (timeDelta >= spawnTime)
         {
-            if (enemiesCount < defaultMaxEnemiesCount + (difficultyModifier * 0.2f))
-            {
-                timeDelta = 0f;
-                TryToSpawn();
-            }
+            timeDelta = 0f;
+            TryToSpawn();
+        }
+
+        playerXp += newTime;
+        playerXpText.text = "XP: " + playerXp.ToString("F0");
+        if (playerXp >= playerXpToNext)
+        {
+            playerLvl++;
+            playerXp -= playerXpToNext;
+            playerXpToNext *= 2f;
+
+            playerLvlText.text = "LVL: " + playerLvl.ToString("F0");
+            playerXpText.text = "XP: " + playerXp.ToString("F0");
         }
     }
 
