@@ -1,16 +1,24 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public class Field : MonoBehaviour
 {
-    public float spawnSpeed = 1000f;
+    public float spawnSpeed = 10f;
     public GameObject turret1;
     public GameObject turret2;
     public GameObject turretBoss;
     public GameObject CubeSurvivor;
+
+    public TextMeshProUGUI playerLvlText;
+    public TextMeshProUGUI playerXpText;
+    public TextMeshProUGUI summaryTimeText;
+
 
     private float timeDelta = 1f;
     private int playerLvl = 1;
@@ -22,6 +30,8 @@ public class Field : MonoBehaviour
     {
         var newTime = Time.deltaTime;
         summaryTime += newTime;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(summaryTime);
+        summaryTimeText.text = string.Format("Time alive:\n {0:D2}:{1:D2}", (int)timeSpan.TotalMinutes, timeSpan.Seconds);
 
         timeDelta += newTime;
         if (timeDelta >= spawnSpeed)
@@ -31,11 +41,15 @@ public class Field : MonoBehaviour
         }
 
         playerXp += newTime;
+        playerXpText.text = "XP: " + playerXp.ToString("F0");
         if (playerXp >= playerXpToNext)
         {
             playerLvl++;
             playerXp -= playerXpToNext;
             playerXpToNext *= 2f;
+
+            playerLvlText.text = "LVL: " + playerLvl.ToString("F0");
+            playerXpText.text = "XP: " + playerXp.ToString("F0");
         }
     }
 

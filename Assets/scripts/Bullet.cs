@@ -3,7 +3,7 @@ using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 public class Bullet : MonoBehaviour
 {
-    private float lifetime = 0f;
+    private float lifetime = 0.1f;
     public bool toClear = false;
     private float startX;
     private float startY;

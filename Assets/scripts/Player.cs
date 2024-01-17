@@ -6,9 +6,11 @@ public class Player : MonoBehaviour
     public float jumpForce = 5f; // Jump force
     public Material material;
     public float rotationSpeed = 5f;
+
     private bool isGrounded = false;
     private float horizontalInput;
     private float verticalInput;
+    private bool reverseDirection = false;
 
     void Update()
     {
@@ -29,6 +31,24 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Unstuck();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            reverseDirection = !reverseDirection;
+            Debug.Log($"Changed parameter to {reverseDirection}");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("BulletTag"))
+        {
+            var newVelocity = other.GetComponent<Rigidbody>().velocity * -1;
+            other.GetComponent<Rigidbody>().velocity = newVelocity;
+
+            other.GetComponent<Bullet>().toClear = false;
+            material.color = new Color(Random.value, Random.value, Random.value);
         }
     }
 
@@ -69,11 +89,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             isGrounded = true;
-        }
-
-        if (collision.gameObject.tag == "BulletTag")
-        {
-            material.color = new Color(Random.value, Random.value, Random.value);
         }
     }
 }

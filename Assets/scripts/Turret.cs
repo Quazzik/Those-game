@@ -14,10 +14,11 @@ public class Turret : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "BulletTag")
+        if (other.gameObject.tag == "BulletTag")
         {
+            other.gameObject.GetComponent<Bullet>().toClear = true;
             hp--;
         }
     }
