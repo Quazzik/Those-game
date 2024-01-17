@@ -5,12 +5,12 @@ public class FirePoint : MonoBehaviour
 {
     private bool pressed;
 
-    public GameObject bulletPrefab; // Префаб шара (пули)
-    public Transform firePoint; // Точка, откуда будут выпускаться шары
-    public float bulletSpeed = 10f; // Скорость шаров
-    private float shootDelay; // Текущая задержка между выстрелами
-    public float startShootDelay; // Начальная задержка между выстрелами
-    public float standartShootDelay = 5.0f; // Стандартная задержка между выстрелами
+    public GameObject bulletPrefab;
+    public Transform firePoint;
+    public float bulletSpeed = 10f;
+    private float shootDelay;
+    public float startShootDelay;
+    public float standartShootDelay = 5.0f;
 
     private void Start()
     {
