@@ -5,8 +5,8 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    public float speedMultiplier = 5f;
-    public float jumpForce = 5f;
+    public float speedMultiplier = 5f; // Speed velocity
+    public float jumpForce = 5f; // Jump force
     public float rotationSpeed = 5f;
     public int hp = 2;
     public int defaultReflectionCooldown = 10;
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private bool alive = true;
 
     private int hpSaver;
-    [HideInInspector]
+    //[HideInInspector]
     public int playerLvl = 1;
     [HideInInspector]
     public float playerXp = 0;

@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
     private GameObject CubeSurvivor;
-    [HideInInspector]
+    //[HideInInspector]
     public float hp;
     private int otherHits = 0;
     private int playerHits = 0;
