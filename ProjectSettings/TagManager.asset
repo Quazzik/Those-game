@@ -7,7 +7,6 @@ TagManager:
   - BulletTag
   - Ground
   - Turret
-  - reflectedBullet
   layers:
   - Default
   - TransparentFX

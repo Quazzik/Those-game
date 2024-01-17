@@ -15,7 +15,7 @@ public class CameraFollow : MonoBehaviour
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         distance -= scroll * zoomSpeed * 1250 * Time.deltaTime;
-        distance = Mathf.Clamp(distance, 5f, 25f);
+        distance = Mathf.Clamp(distance, 2f, 10f);
 
         float targetRotationAngle = target.eulerAngles.y;
 

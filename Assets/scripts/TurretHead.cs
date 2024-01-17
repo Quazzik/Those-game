@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class TurretHead : MonoBehaviour
 {
-    public Transform fireTarget; // Цель, на которую наводится голова
-    public float rotationSpeed = 5f; // Скорость поворота башни
-    public LayerMask obstacleMask; // Слой препятствий
+    public Transform fireTarget; // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    public float rotationSpeed = 5f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    public LayerMask obstacleMask; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     public bool seePlayer;
 
     void Update()
     {
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, r)
+
+
         if (fireTarget != null)
         {
             Vector3 directionToPlayer = fireTarget.position - transform.position;

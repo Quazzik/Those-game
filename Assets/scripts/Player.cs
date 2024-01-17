@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
@@ -43,8 +42,12 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (godmode) { hp = 10000; alive = true; healthStatus.text = "Godmode"; healthStatus.color = Color.yellow; reflectionActiveTimer = 1000; reflectionCountdownTimer = 0; }
-        if (alive)
+
+        // ������� ���� � ������� ����
+        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+        transform.Rotate(Vector3.up, mouseX);
+
+        if (isGrounded)
         {
             #region other
             var newTime = Time.deltaTime;
@@ -154,11 +157,6 @@ public class Player : MonoBehaviour
             }
             #endregion
         }
-        else
-        {
-            healthStatus.text = "You dead";
-        }
-    }
 
     private void Heal(int healCount)
     {
@@ -208,13 +206,11 @@ public class Player : MonoBehaviour
                 other.GetComponent<Rigidbody>().velocity = newVelocity;
                 other.tag = "reflectedBullet";
 
-                other.GetComponent<Bullet>().toClear = false;
-            }else
-            {
-                hp--;
-                other.GetComponent<Bullet>().toClear = true;
-            }
-            material.color = new Color(Random.value, Random.value, Random.value);
+        transform.Translate(movement);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Unstuck();
         }
 
         if (Input.GetKeyDown(KeyCode.F))
