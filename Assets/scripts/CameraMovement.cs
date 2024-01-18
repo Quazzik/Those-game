@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class CameraFollow : MonoBehaviour
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         distance -= scroll * zoomSpeed * 1250 * Time.deltaTime;
-        distance = Mathf.Clamp(distance, 2f, 10f);
+        distance = Mathf.Clamp(distance, 5f, 25f);
 
         float targetRotationAngle = target.eulerAngles.y;
 
@@ -28,12 +27,6 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = cameraPosition;
 
-
-
-
-        //verticalAngle += mouseX * Time.deltaTime * 200;
-
-        // Отражаем движение мыши по оси Y на вертикальном угле поворота камеры
         float mouseY = Input.GetAxis("Mouse Y");
         verticalAngle -= mouseY * rotationSpeed * 100 * Time.deltaTime;
         verticalAngle = Mathf.Clamp(verticalAngle, -0f, 60f);

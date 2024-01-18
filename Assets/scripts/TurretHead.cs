@@ -1,18 +1,14 @@
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class TurretHead : MonoBehaviour
 {
-    public Transform fireTarget; // ���� �� ������� ��������� ������
-    public float rotationSpeed = 5f; // �������� �������� �����
-    public LayerMask obstacleMask; // ���� �����������
+    public Transform fireTarget;
+    public float rotationSpeed = 5f;
+    public LayerMask obstacleMask;
     public bool seePlayer;
 
     void Update()
     {
-        // ��������� ������� ������� ��� �������� (� ������ ������, r)
-
-
         if (fireTarget != null)
         {
             Vector3 directionToPlayer = fireTarget.position - transform.position;

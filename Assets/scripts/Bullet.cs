@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 public class Bullet : MonoBehaviour
 {

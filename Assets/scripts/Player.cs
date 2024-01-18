@@ -2,23 +2,31 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
-    public float speedMultiplier = 5f; // Speed velocity
-    public float jumpForce = 5f; // Jump force
+    public float speedMultiplier = 5f;
+    public float jumpForce = 5f;
     public float rotationSpeed = 5f;
+    public int hp;
+    public int maxHP = 2;
+    private float defaultRegenTime = 120f;
+    public int defaultReflectionCooldown = 10;
+    public int defaultReflectionActive = 2;
+    public Material material;
 
+    private bool godmode = false;
     private bool isGrounded = false;
     private float horizontalInput;
     private float verticalInput;
-    private bool reverseDirection = false;
+    private bool alive = true;
 
     private float untilRegenTime;
     private int hpSaver;
     [HideInInspector]
     public int playerLvl = 1;
-    //[HideInInspector]
+    [HideInInspector]
     public float playerXp = 0f;
     private float playerXpToNext = 100f;
     private float summaryTime = 0f;
@@ -43,11 +51,8 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        // ������� ���� � ������� ����
-        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
-        transform.Rotate(Vector3.up, mouseX);
-
-        if (isGrounded)
+        if (godmode) { hp = 10000; alive = true; healthStatus.text = "Godmode"; healthStatus.color = Color.yellow; reflectionActiveTimer = 1000; reflectionCountdownTimer = 0; }
+        if (alive)
         {
             #region other
             var newTime = Time.deltaTime;
@@ -138,7 +143,6 @@ public class Player : MonoBehaviour
                     reflectionCountdownTimer = defaultReflectionCooldown + defaultReflectionActive;
                 }
             }
-            // ������� ���� � ������� ����
             float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
             transform.Rotate(Vector3.up, mouseX);
 
@@ -157,6 +161,11 @@ public class Player : MonoBehaviour
             }
             #endregion
         }
+        else
+        {
+            healthStatus.text = "You dead";
+        }
+    }
 
     private void Heal(int healCount)
     {
@@ -172,7 +181,7 @@ public class Player : MonoBehaviour
         switch (bonusNum)
         {
             case 0: maxHP++; ShowLevelUpText("Max hp increased"); break;
-            case 1: playerLvl--; playerXpToNext /= 1.1f; ShowLevelUpText("Player lvl reduced"); break;
+            case 1: playerLvl-= 2; playerXpToNext /= 1.1f; ShowLevelUpText("Player lvl reduced"); break;
             case 2: speedMultiplier++; ShowLevelUpText("Player speed increased"); break;
             case 3: defaultReflectionCooldown--; ShowLevelUpText("Reflection cooldown reduced"); break;
             case 4: defaultReflectionActive++; ShowLevelUpText("Reflection time increased"); break;
@@ -206,28 +215,12 @@ public class Player : MonoBehaviour
                 other.GetComponent<Rigidbody>().velocity = newVelocity;
                 other.tag = "reflectedBullet";
 
-        transform.Translate(movement);
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Unstuck();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            reverseDirection = !reverseDirection;
-            Debug.Log($"Changed parameter to {reverseDirection}");
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("BulletTag"))
-        {
-            var newVelocity = other.GetComponent<Rigidbody>().velocity * -1;
-            other.GetComponent<Rigidbody>().velocity = newVelocity;
-
-            other.GetComponent<Bullet>().toClear = false;
+                other.GetComponent<Bullet>().toClear = false;
+            }else
+            {
+                hp--;
+                other.GetComponent<Bullet>().toClear = true;
+            }
             material.color = new Color(Random.value, Random.value, Random.value);
         }
     }

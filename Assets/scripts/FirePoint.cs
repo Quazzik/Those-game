@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class FirePoint : MonoBehaviour
@@ -10,21 +9,26 @@ public class FirePoint : MonoBehaviour
     public float startShootDelay;
     public float standartShootDelay = 5.0f;
 
+    void Start()
+    {
+        shootDelay = startShootDelay;
+    }
+
     void Update()
     {
-        shootDelay -= Time.deltaTime;
-        if (gameObject.GetComponentInParent<TurretHead>().seePlayer)
+        if (gameObject.GetComponentInParent<Turret>().onGround)
         {
-            if (shootDelay < 0)
+            shootDelay -= Time.deltaTime;
+            if (gameObject.GetComponentInParent<TurretHead>().seePlayer)
             {
-                if (gameObject.GetComponentInParent<Turret>().onGround)
+                if (shootDelay <= 0)
                 {
                     shootDelay = standartShootDelay;
                     Shoot();
                 }
             }
+            else { shootDelay = startShootDelay; }
         }
-        else { shootDelay = startShootDelay; }
     }
 
     void Shoot()
