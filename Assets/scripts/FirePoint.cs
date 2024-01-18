@@ -3,33 +3,28 @@ using UnityEngine;
 
 public class FirePoint : MonoBehaviour
 {
-    private bool pressed;
+    public GameObject bulletPrefab;
+    public Transform firePoint;
+    public float bulletSpeed = 10f;
+    private float shootDelay;
+    public float startShootDelay;
+    public float standartShootDelay = 5.0f;
 
-    public GameObject bulletPrefab; // Префаб шара (пули)
-    public Transform firePoint; // Точка, откуда будут выпускаться шары
-    public float bulletSpeed = 10f; // Скорость шаров
-    private float shootDelay; // Текущая задержка между выстрелами
-    public float startShootDelay; // Начальная задержка между выстрелами
-    public float standartShootDelay = 5.0f; // Стандартная задержка между выстрелами
-
-    private void Start()
-    {
-        shootDelay = startShootDelay+standartShootDelay;
-        startShootDelay = 0;
-    }
     void Update()
     {
         shootDelay -= Time.deltaTime;
-        if (shootDelay < 0)
+        if (gameObject.GetComponentInParent<TurretHead>().seePlayer)
         {
-            shootDelay = standartShootDelay;
-            Shoot();
+            if (shootDelay < 0)
+            {
+                if (gameObject.GetComponentInParent<Turret>().onGround)
+                {
+                    shootDelay = standartShootDelay;
+                    Shoot();
+                }
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.T)) { pressed = true; }
-        if (Input.GetKeyUp(KeyCode.T)) { pressed = false; }
-
-        if (pressed) Shoot();
+        else { shootDelay = startShootDelay; }
     }
 
     void Shoot()

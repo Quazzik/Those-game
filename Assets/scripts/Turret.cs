@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    private GameObject CubeSurvivor;
+    private GameObject playerModel;
+    [HideInInspector]
+    public bool onGround = false;
     //[HideInInspector]
     public float hp;
     private int otherHits = 0;
@@ -14,26 +16,35 @@ public class Turret : MonoBehaviour
 
     private void Start()
     {
-        CubeSurvivor = GameObject.FindWithTag("Player");
+        playerModel = GameObject.FindWithTag("Player");
     }
     void Update()
     {
-        float currentAngleZ = transform.rotation.eulerAngles.z;
-        if (currentAngleZ > 10)
+        if (hp <= 0)
+        {
+            Destroy(gameObject);
+            if (playerHits > 0)
+            {
+                var xpForPlayer = playerHits / (playerHits + otherHits) * xpBonus;
+                Player playerComponent = playerModel.GetComponent<Player>();
+                playerComponent.playerXp += xpForPlayer;
+            }
+        }
+        float distance = Vector3.Distance(transform.position, playerModel.transform.position);
+        if (distance > 60)
+            Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Turret")
         {
             Destroy(gameObject);
         }
 
-        if (hp <= 0)
+        if (collision.gameObject.tag == "Ground")
         {
-            Destroy(gameObject);
-            Debug.Log($"Player hits: {playerHits}, other hits: {otherHits}");
-            if (playerHits > 0)
-            {
-                var xpForPlayer = playerHits / (playerHits + otherHits) * xpBonus;
-                Player playerComponent = CubeSurvivor.GetComponent<Player>();
-                playerComponent.playerXp += xpForPlayer;
-            }
+            onGround = true;
         }
     }
 
@@ -43,13 +54,11 @@ public class Turret : MonoBehaviour
         {
             ChangeAfterCollision(other);
             otherHits++;
-            Debug.Log("Hit from other");
         }
         else if (other.gameObject.tag == "reflectedBullet")
         {
             ChangeAfterCollision(other);
             playerHits++;
-            Debug.Log("Hit from player");
         }
     }
     private void ChangeAfterCollision(Collider other)

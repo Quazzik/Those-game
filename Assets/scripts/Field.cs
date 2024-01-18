@@ -42,7 +42,6 @@ public class Field : MonoBehaviour
             {
                 timeDelta = 0f;
                 TryToSpawn();
-                Debug.Log($"Max enemies: {defaultMaxEnemiesCount + (difficultyModifier * 0.2f)}");
             }
         }
     }
@@ -117,8 +116,8 @@ public class Field : MonoBehaviour
         float randomAngle = Random.Range(0f, 2 * Mathf.PI);
         float radius = 30f;
 
-        float randomX = radius * Mathf.Cos(randomAngle);
-        float randomY = radius * Mathf.Sin(randomAngle);
+        float randomX = playerTransform.position.x + radius * Mathf.Cos(randomAngle);
+        float randomY = playerTransform.position.z + radius * Mathf.Sin(randomAngle);
 
         List <float> retcords = GetNotBlocked(randomX, randomY);
         SpawnTurret(retcords[0], retcords[1]);

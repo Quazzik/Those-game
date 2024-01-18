@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,7 +9,9 @@ public class Player : MonoBehaviour
     public float speedMultiplier = 5f; // Speed velocity
     public float jumpForce = 5f; // Jump force
     public float rotationSpeed = 5f;
-    public int hp = 2;
+    public int hp;
+    public int maxHP = 2;
+    private float defaultRegenTime = 120f;
     public int defaultReflectionCooldown = 10;
     public int defaultReflectionActive = 2;
     public Material material;
@@ -19,12 +22,13 @@ public class Player : MonoBehaviour
     private float verticalInput;
     private bool alive = true;
 
+    private float untilRegenTime;
     private int hpSaver;
-    //[HideInInspector]
-    public int playerLvl = 1;
     [HideInInspector]
-    public float playerXp = 0;
-    private float playerXpToNext = 120;
+    public int playerLvl = 1;
+    //[HideInInspector]
+    public float playerXp = 0f;
+    private float playerXpToNext = 100f;
     private float summaryTime = 0f;
 
     private bool reflection = false;
@@ -36,26 +40,30 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI totalTimeText;
     public TextMeshProUGUI ReflectionStatusText;
     public TextMeshProUGUI healthStatus;
+    public TextMeshProUGUI lvlUpText;
 
+    private void Start()
+    {
+        hp = maxHP;
+        untilRegenTime = defaultRegenTime;
+        lvlUpText.gameObject.SetActive(false);
+    }
     void Update()
     {
         if (godmode) { hp = 10000; alive = true; healthStatus.text = "Godmode"; healthStatus.color = Color.yellow; reflectionActiveTimer = 1000; reflectionCountdownTimer = 0; }
         if (alive)
         {
             #region other
-            if (hp <= 0)
-            {
-                alive = false;
-                healthStatus.color = Color.black;
-            }
-            else if (!godmode)
-            {
-                healthStatus.color = Color.white;
-                healthStatus.text = "Health: " + hp.ToString();
-            }
             var newTime = Time.deltaTime;
+            untilRegenTime -= newTime;
             reflectionCountdownTimer -= newTime;
             reflectionActiveTimer -= newTime;
+
+            if (untilRegenTime < 0)
+            {
+                Heal(1);
+                untilRegenTime = defaultRegenTime;
+            }
 
             if (reflectionActiveTimer > 0)
             {
@@ -66,6 +74,17 @@ public class Player : MonoBehaviour
             #endregion
 
             #region UI
+            if (hp <= 0)
+            {
+                alive = false;
+                healthStatus.color = Color.black;
+            }
+            else if (!godmode)
+            {
+                healthStatus.color = Color.white;
+                healthStatus.text = "Health: " + hp.ToString() + "/" + maxHP.ToString();
+            }
+
             if (reflection)
             {
                 ReflectionStatusText.text = "Reflection active: " + reflectionActiveTimer.ToString("F1");
@@ -89,8 +108,9 @@ public class Player : MonoBehaviour
             if (playerXp >= playerXpToNext)
             {
                 playerLvl++;
+                GetLvlUpBonus();
                 playerXp -= playerXpToNext;
-                playerXpToNext *= 1.2f;
+                playerXpToNext *= 1.1f;
 
                 playerLvlText.text = "LVL: " + playerLvl.ToString("F0");
                 playerXpText.text = "XP: " + playerXp.ToString("F0");
@@ -119,7 +139,7 @@ public class Player : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.LeftAlt))
                 {
                     reflectionActiveTimer = defaultReflectionActive;
-                    reflectionCountdownTimer = defaultReflectionCooldown;
+                    reflectionCountdownTimer = defaultReflectionCooldown + defaultReflectionActive;
                 }
             }
             // Поворот куба с помощью мыши
@@ -145,6 +165,44 @@ public class Player : MonoBehaviour
         {
             healthStatus.text = "You dead";
         }
+    }
+
+    private void Heal(int healCount)
+    {
+        if (hp < maxHP)
+        {
+            hp += healCount;
+        }
+    }
+
+    private void GetLvlUpBonus()
+    {
+        var bonusNum = Random.Range(0, 6);
+        switch (bonusNum)
+        {
+            case 0: maxHP++; ShowLevelUpText("Max hp increased"); break;
+            case 1: playerLvl--; playerXpToNext /= 1.1f; ShowLevelUpText("Player lvl reduced"); break;
+            case 2: speedMultiplier++; ShowLevelUpText("Player speed increased"); break;
+            case 3: defaultReflectionCooldown--; ShowLevelUpText("Reflection cooldown reduced"); break;
+            case 4: defaultReflectionActive++; ShowLevelUpText("Reflection time increased"); break;
+            case 5: defaultRegenTime/=1.2f; ShowLevelUpText("Regeneration increased"); break;
+        }
+    }
+
+    public void ShowLevelUpText(string levelBonus)
+    {
+        StartCoroutine(DisplayLevelUpText(levelBonus));
+    }
+
+    IEnumerator DisplayLevelUpText(string levelBonus)
+    {
+        lvlUpText.text = "Level up: " + playerLvl +
+            "\n" + levelBonus;
+        lvlUpText.gameObject.SetActive(true);
+
+
+        yield return new WaitForSeconds(3);
+        lvlUpText.gameObject.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
