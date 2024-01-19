@@ -5,7 +5,7 @@ public class Turret : MonoBehaviour
     private GameObject playerModel;
     [HideInInspector]
     public bool onGround = false;
-    [HideInInspector]
+    //[HideInInspector]
     public float hp;
     private int otherHits = 0;
     private int playerHits = 0;
@@ -25,7 +25,7 @@ public class Turret : MonoBehaviour
             {
                 var xpForPlayer = playerHits / (playerHits + otherHits) * xpBonus;
                 Player playerComponent = playerModel.GetComponent<Player>();
-                playerComponent.playerXp += xpForPlayer*10;
+                playerComponent.playerXp += xpForPlayer;
             }
         }
         float distance = Vector3.Distance(transform.position, playerModel.transform.position);

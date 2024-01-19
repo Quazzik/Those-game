@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     public int defaultReflectionActive = 2;
     public Material material;
 
+    private bool isMenuActive = false;
     private bool godmode = false;
     private bool isGrounded = false;
     private float horizontalInput;
@@ -35,6 +37,8 @@ public class Player : MonoBehaviour
     private float reflectionCountdownTimer = 0f;
     private float reflectionActiveTimer = 0f;
 
+    public Material blurMaterial;
+    public GameObject menuPanel;
     public TextMeshProUGUI playerLvlText;
     public TextMeshProUGUI playerXpText;
     public TextMeshProUGUI totalTimeText;
@@ -47,18 +51,37 @@ public class Player : MonoBehaviour
         hp = maxHP;
         untilRegenTime = defaultRegenTime;
         lvlUpText.gameObject.SetActive(false);
+        menuPanel.SetActive(false);
+        Time.timeScale = 1f;
     }
     void Update()
     {
 
-        if (godmode) { hp = 10000; alive = true; healthStatus.text = "Godmode"; healthStatus.color = Color.yellow; reflectionActiveTimer = 1000; reflectionCountdownTimer = 0; }
+        if (godmode) { hp = 10000; alive = true;
+            healthStatus.text = "Godmode";
+            healthStatus.color = Color.yellow;
+            reflectionActiveTimer = 1000;
+            reflectionCountdownTimer = 0; }
+
         if (alive)
         {
             #region other
+
             var newTime = Time.deltaTime;
             untilRegenTime -= newTime;
             reflectionCountdownTimer -= newTime;
             reflectionActiveTimer -= newTime;
+
+            if (!isMenuActive)
+            {
+                float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
+                transform.Rotate(Vector3.up, mouseX);
+            }
+
+            if (isGrounded)
+            {
+                Moving();
+            }
 
             if (untilRegenTime < 0)
             {
@@ -75,6 +98,7 @@ public class Player : MonoBehaviour
             #endregion
 
             #region UI
+
             if (hp <= 0)
             {
                 alive = false;
@@ -119,6 +143,12 @@ public class Player : MonoBehaviour
             #endregion
 
             #region Keys
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ToggleMenu();
+            }
+
             if (Input.GetKeyDown(KeyCode.G))
             {
                 if (!godmode)
@@ -143,13 +173,6 @@ public class Player : MonoBehaviour
                     reflectionCountdownTimer = defaultReflectionCooldown + defaultReflectionActive;
                 }
             }
-            float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
-            transform.Rotate(Vector3.up, mouseX);
-
-            if (isGrounded)
-            {
-                Moving();
-            }
 
             Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * speedMultiplier * Time.deltaTime;
 
@@ -167,7 +190,33 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Heal(int healCount)
+    public void ToggleMenu()
+    {
+        isMenuActive = !isMenuActive;
+
+        if (isMenuActive)
+        {
+            Time.timeScale = 0f;
+            menuPanel.SetActive(true);
+
+            if (blurMaterial != null)
+            {
+                blurMaterial.SetFloat("_Size", 5f);
+            }
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            menuPanel.SetActive(false);
+
+            if (blurMaterial != null)
+            {
+                blurMaterial.SetFloat("_Size", 0f);
+            }
+        }
+    }
+
+        private void Heal(int healCount)
     {
         if (hp < maxHP)
         {

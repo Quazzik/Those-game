@@ -14,15 +14,15 @@ public class DeleteBox : MonoBehaviour
     List <GameObject> walls = new List <GameObject>();
     public float step;
     Color _color;
-    // Start is called before the first frame update
+
     void Start()
     {
-        wall1 = this.transform.GetChild(1).GetComponent<GameObject>();
-        wall2 = this.transform.GetChild(2).GetComponent<GameObject>();
-        wall3 = this.transform.GetChild(3).GetComponent<GameObject>();
-        wall4 = this.transform.GetChild(4).GetComponent<GameObject>();
-        wall5 = this.transform.GetChild(5).GetComponent<GameObject>();
-        wall6 = this.transform.GetChild(6).GetComponent<GameObject>();
+        wall1 = transform.GetChild(1).GetComponent<GameObject>();
+        wall2 = transform.GetChild(2).GetComponent<GameObject>();
+        wall3 = transform.GetChild(3).GetComponent<GameObject>();
+        wall4 = transform.GetChild(4).GetComponent<GameObject>();
+        wall5 = transform.GetChild(5).GetComponent<GameObject>();
+        wall6 = transform.GetChild(6).GetComponent<GameObject>();
     }
 
     // Update is called once per frame
