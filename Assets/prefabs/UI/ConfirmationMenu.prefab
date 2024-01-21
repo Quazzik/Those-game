@@ -280,7 +280,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1693812a803b22e44abed8a25a8823f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ESCMenuPrefab: {fileID: 710669541822177617, guid: 1f9dff5defb845844abd7d17dd5172f2, type: 3}
   mainMenuPrefab: {fileID: 4778531554871843030, guid: 0f25dba3f05ad6c43ba5d7edcc02d464, type: 3}
+  levelExitMenu: 0
 --- !u!1 &5172749104078367224
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,7 +667,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1693812a803b22e44abed8a25a8823f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ESCMenuPrefab: {fileID: 710669541822177617, guid: 1f9dff5defb845844abd7d17dd5172f2, type: 3}
   mainMenuPrefab: {fileID: 4778531554871843030, guid: 0f25dba3f05ad6c43ba5d7edcc02d464, type: 3}
+  levelExitMenu: 0
 --- !u!1 &8939765871202954200
 GameObject:
   m_ObjectHideFlags: 0

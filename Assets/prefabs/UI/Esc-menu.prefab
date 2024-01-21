@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 17424391995464870}
   - component: {fileID: 9162958258775517424}
   m_Layer: 5
-  m_Name: EscMenu
+  m_Name: Esc-menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,7 +186,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 5
+  m_PlaneDistance: 2
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -196,7 +196,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &17424391995464870
 MonoBehaviour:
@@ -518,8 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43884d9d773dc14393d7d9894a28242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfirmationMenuPrefab: {fileID: 5172749104078367224, guid: de1382e03473887459c067249a607922, type: 3}
-  MainMenuPrefab: {fileID: 4778531554871843030, guid: 0f25dba3f05ad6c43ba5d7edcc02d464, type: 3}
+  confirmationMenuPrefab: {fileID: 5172749104078367224, guid: de1382e03473887459c067249a607922, type: 3}
 --- !u!1 &5035635789891480612
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,8 +665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43884d9d773dc14393d7d9894a28242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfirmationMenuPrefab: {fileID: 5172749104078367224, guid: de1382e03473887459c067249a607922, type: 3}
-  MainMenuPrefab: {fileID: 4778531554871843030, guid: 0f25dba3f05ad6c43ba5d7edcc02d464, type: 3}
+  confirmationMenuPrefab: {fileID: 5172749104078367224, guid: de1382e03473887459c067249a607922, type: 3}
 --- !u!1 &7196945689974227294
 GameObject:
   m_ObjectHideFlags: 0

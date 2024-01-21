@@ -38,8 +38,8 @@ public class Player : MonoBehaviour
     private bool reflection = false;
     private float reflectionCountdownTimer = 0f;
     private float reflectionActiveTimer = 0f;
+    private GameObject ingameMenuPanel;
 
-    public Material blurMaterial;
     public GameObject menuPanel;
     public TextMeshProUGUI playerLvlText;
     public TextMeshProUGUI playerXpText;
@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
         hp = maxHP;
         untilRegenTime = defaultRegenTime;
         lvlUpText.gameObject.SetActive(false);
-        menuPanel.SetActive(false);
         Time.timeScale = 1f;
         Cursor.visible = false;
     }
@@ -68,7 +67,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ToggleMenu();
+            if (ingameMenuPanel != null)
+            {
+                ChangeMenu(false);
+            }
+            else
+                ChangeMenu(true);
         }
 
         if (alive)
@@ -111,6 +115,7 @@ public class Player : MonoBehaviour
             {
                 alive = false;
                 healthStatus.color = Color.black;
+                EndGame();
             }
             else if (!godmode)
             {
@@ -190,42 +195,56 @@ public class Player : MonoBehaviour
         else
         {
             healthStatus.text = "You dead";
+            Cursor.visible = true;
         }
     }
 
-    public void ToggleMenu()
+    public void ChangeMenu(bool whatto)
     {
-        isMenuActive = !isMenuActive;
 
-        if (isMenuActive)
+        if (whatto)
         {
+            isMenuActive = true;
             Time.timeScale = 0f;
             Cursor.visible = true;
-            menuPanel.SetActive(true);
-
-            if (blurMaterial != null)
-            {
-                blurMaterial.SetFloat("_Size", 5f);
-            }
+            ingameMenuPanel = Instantiate(menuPanel);
         }
         else
         {
+            isMenuActive = false;
             Time.timeScale = 1f;
             Cursor.visible = false;
-            menuPanel.SetActive(false);
-
-            if (blurMaterial != null)
-            {
-                blurMaterial.SetFloat("_Size", 0f);
-            }
+            Destroy(ingameMenuPanel);
         }
     }
 
-        private void Heal(int healCount)
+    private void Heal(int healCount)
     {
         if (hp < maxHP)
         {
             hp += healCount;
+        }
+    }
+
+    private void EndGame()
+    {
+        var toptimeSeconds = PlayerPrefs.GetFloat("SurvivalTime");
+
+        if (toptimeSeconds < summaryTime)
+        {
+            PlayerPrefs.SetFloat("SurvivalTime", summaryTime);
+            PlayerPrefs.Save();
+
+            var toptimeMins = TimeSpan.FromSeconds(toptimeSeconds);
+            var newTimeMins = TimeSpan.FromSeconds(summaryTime);
+            lvlUpText.text = string.Format("New record! \n Was {0:D2}:{1:D2}, and now it's ", (int)toptimeMins.TotalMinutes, toptimeMins.Seconds) +
+                 string.Format("and now {0:D2}:{1:D2}", (int)newTimeMins.TotalMinutes, newTimeMins.Seconds);
+
+            lvlUpText.rectTransform.sizeDelta = new Vector2(900, lvlUpText.rectTransform.sizeDelta.y);
+            lvlUpText.gameObject.SetActive(true);
+            lvlUpText.fontSize = 40;
+            lvlUpText.color = new Color(1f, 1f, 1f, 1f);
+
         }
     }
 
@@ -234,13 +253,67 @@ public class Player : MonoBehaviour
         var bonusNum = Random.Range(0, 6);
         switch (bonusNum)
         {
-            case 0: maxHP++; ShowLevelUpText("Max hp increased"); break;
-            case 1: playerLvl-= 2; playerXpToNext /= 1.1f; ShowLevelUpText("Player lvl reduced"); break;
-            case 2: speedMultiplier++; ShowLevelUpText("Player speed increased"); break;
-            case 3: defaultReflectionCooldown--; ShowLevelUpText("Reflection cooldown reduced"); break;
-            case 4: defaultReflectionActive++; ShowLevelUpText("Reflection time increased"); break;
-            case 5: defaultRegenTime/=1.2f; ShowLevelUpText("Regeneration increased"); break;
+            case 0:
+                maxHP++;
+                ShowLevelUpText("Max hp increased");
+                break;
+            case 1:
+                if (playerLvl >= 15)
+                {
+                    playerLvl -= 2;
+                    playerXpToNext /= 1.1f;
+                    ShowLevelUpText("Player lvl reduced");
+                }
+                else
+                {
+                    int money = PlayerPrefs.GetInt("PlayerMoney");
+                    PlayerPrefs.SetInt("PlayerMoney", money + 50);
+                    PlayerPrefs.Save();
+                    GiveCompensation("Player level is too low.");
+                }
+                break;
+            case 2:
+                speedMultiplier++;
+                ShowLevelUpText("Player speed increased");
+                break;
+            case 3:
+                if (defaultReflectionCooldown >= 5)
+                {
+                    defaultReflectionCooldown--;
+                    ShowLevelUpText("Reflection cooldown reduced");
+                }
+                else
+                {
+                    int money = PlayerPrefs.GetInt("PlayerMoney");
+                    PlayerPrefs.SetInt("PlayerMoney", money + 50);
+                    PlayerPrefs.Save();
+                    GiveCompensation("Reflection cooldown minimized.");
+                }
+                break;
+            case 4:
+                if (defaultReflectionActive <= 5)
+                {
+                    defaultReflectionActive++;
+                    ShowLevelUpText("Reflection time increased");
+                }
+                else
+                {
+                    int money = PlayerPrefs.GetInt("PlayerMoney");
+                    PlayerPrefs.SetInt("PlayerMoney", money + 50);
+                    PlayerPrefs.Save();
+                    GiveCompensation("Reflection time maximized.");
+                }
+                break;
+            case 5:
+                defaultRegenTime/=1.2f;
+                ShowLevelUpText("Regeneration increased");
+                break;
         }
+    }
+
+    public void GiveCompensation(string text)
+    {
+        ShowLevelUpText(text + "  You have received 50 coins of compensation");
     }
 
     public void ShowLevelUpText(string levelBonus)
