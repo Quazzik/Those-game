@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Turret
   - reflectedBullet
+  - MainMenu
   layers:
   - Default
   - TransparentFX

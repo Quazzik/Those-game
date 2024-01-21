@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -22,7 +23,8 @@ public class Player : MonoBehaviour
     private bool isGrounded = false;
     private float horizontalInput;
     private float verticalInput;
-    private bool alive = true;
+    [HideInInspector]
+    public bool alive = true;
 
     private float untilRegenTime;
     private int hpSaver;
@@ -53,6 +55,7 @@ public class Player : MonoBehaviour
         lvlUpText.gameObject.SetActive(false);
         menuPanel.SetActive(false);
         Time.timeScale = 1f;
+        Cursor.visible = false;
     }
     void Update()
     {
@@ -62,6 +65,11 @@ public class Player : MonoBehaviour
             healthStatus.color = Color.yellow;
             reflectionActiveTimer = 1000;
             reflectionCountdownTimer = 0; }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleMenu();
+        }
 
         if (alive)
         {
@@ -144,11 +152,6 @@ public class Player : MonoBehaviour
 
             #region Keys
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                ToggleMenu();
-            }
-
             if (Input.GetKeyDown(KeyCode.G))
             {
                 if (!godmode)
@@ -197,6 +200,7 @@ public class Player : MonoBehaviour
         if (isMenuActive)
         {
             Time.timeScale = 0f;
+            Cursor.visible = true;
             menuPanel.SetActive(true);
 
             if (blurMaterial != null)
@@ -207,6 +211,7 @@ public class Player : MonoBehaviour
         else
         {
             Time.timeScale = 1f;
+            Cursor.visible = false;
             menuPanel.SetActive(false);
 
             if (blurMaterial != null)
