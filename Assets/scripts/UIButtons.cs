@@ -1,10 +1,8 @@
-using System.Xml;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIButtons : MonoBehaviour
 {
-    //public bool levelExitMenu;
     public GameObject confirmationMenuPrefab;
 
     public void SwitchScene()

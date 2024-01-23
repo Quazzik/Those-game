@@ -10,12 +10,14 @@ public class Field : MonoBehaviour
     public GameObject turret2;
     public GameObject turret3;
     public GameObject CubeSurvivor;
+    public GameObject Booster;
 
     private GameObject playerObject;
     private Transform playerTransform;
     private int difficultyModifier;
-    private float spawnTime = 1f;
-    private float timeDelta = 50f;
+    private float boosterSpawnTime;
+    private float turretSpawnTime = 1f;
+    private float afterTurretTime = 50f;
     private int defaultMaxEnemiesCount = 5;
 
     private void Start()
@@ -32,12 +34,12 @@ public class Field : MonoBehaviour
         
         var enemiesCount = GameObject.FindGameObjectsWithTag("Turret").Length;
 
-        timeDelta += newTime;
-        if (timeDelta >= spawnTime)
+        afterTurretTime += newTime;
+        if (afterTurretTime >= turretSpawnTime)
         {
             if (enemiesCount < defaultMaxEnemiesCount + (difficultyModifier * 0.2f))
             {
-                timeDelta = 0f;
+                afterTurretTime = 0f;
                 TryToSpawn();
             }
         }

@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2258548865528589526, guid: 1aa994e4757f2dd4f87cfbfcb0edd4a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000009536743
+      value: 5.04
       objectReference: {fileID: 0}
     - target: {fileID: 2258548865528589526, guid: 1aa994e4757f2dd4f87cfbfcb0edd4a3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1040,6 +1040,7 @@ MonoBehaviour:
   turret2: {fileID: 4242063806075431925, guid: 1a885cb4fa902dd438c6f883b6611e4f, type: 3}
   turret3: {fileID: 9217984220423305822, guid: 417c47f084167844999c4cd686a4f46e, type: 3}
   CubeSurvivor: {fileID: 875705107}
+  Booster: {fileID: 1294223184652744590, guid: 817949e76df60f646ad406f983fff6d1, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

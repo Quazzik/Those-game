@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class ConfirmationExit : MonoBehaviour
@@ -9,14 +6,15 @@ public class ConfirmationExit : MonoBehaviour
     public GameObject ESCMenuPrefab;
     public GameObject mainMenuPrefab;
     public bool levelExitMenu;
-
+    [HideInInspector]
+    public bool onMainMeu = false;
     private bool isMenuActive = false;
 
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Destroy(gameObject.GetComponentInParent<Canvas>().gameObject);
+            WantMore();
         }
     }
 
