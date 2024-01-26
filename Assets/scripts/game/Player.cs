@@ -55,8 +55,13 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI lvlUpText;
     public TextMeshProUGUI SurvivalTimeBonusText;
 
+    public Animator animator;
+
+
     private void Start()
     {
+        animator = GetComponent<Animator>();
+
         defaultMaxHP = PlayerPrefs.GetInt("defaultMaxHP", 2);
         defaultRegenTime = PlayerPrefs.GetFloat("defaultRegenTime", 150f);
         defaultReflectionCooldown = PlayerPrefs.GetFloat("defaultReflectionCooldown", 15f);
@@ -399,6 +404,15 @@ public class Player : MonoBehaviour
 
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+
+        if (Math.Abs(verticalInput) > 0)
+        {
+            animator.SetBool("IsMoving", true);
+        }
+        if (verticalInput == 0)
+        {
+            animator.SetBool("IsMoving", false);
+        }
 
         Vector3 moveDirection = new Vector3(horizontalInput, 0, verticalInput);
         transform.Translate(moveDirection * Time.deltaTime * 5f);
