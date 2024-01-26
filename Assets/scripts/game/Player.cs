@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
@@ -8,14 +9,18 @@ using Random = UnityEngine.Random;
 
 public class Player : MonoBehaviour
 {
+    [HideInInspector]
     public float speedMultiplier = 5f;
+    [HideInInspector]
     public float jumpForce = 5f;
+    [HideInInspector]
     public float rotationSpeed = 5f;
+    [HideInInspector]
     public int hp;
-    public int maxHP = 2;
-    private float defaultRegenTime = 120f;
-    public int defaultReflectionCooldown = 10;
-    public int defaultReflectionActive = 2;
+    public int defaultMaxHP;
+    public float defaultRegenTime;
+    public float defaultReflectionCooldown;
+    public float defaultReflectionActive;
     public Material material;
 
     private bool isMenuActive = false;
@@ -26,6 +31,7 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool alive = true;
 
+    private int totalMinutes = 1;
     private float untilRegenTime;
     private int hpSaver;
     [HideInInspector]
@@ -38,21 +44,28 @@ public class Player : MonoBehaviour
     private bool reflection = false;
     private float reflectionCountdownTimer = 0f;
     private float reflectionActiveTimer = 0f;
-    private GameObject ingameMenuPanel;
 
+    private GameObject ingameMenuPanel;
     public GameObject menuPanel;
     public TextMeshProUGUI playerLvlText;
     public TextMeshProUGUI playerXpText;
     public TextMeshProUGUI totalTimeText;
     public TextMeshProUGUI ReflectionStatusText;
-    public TextMeshProUGUI healthStatus;
+    public TextMeshProUGUI healthStatusText;
     public TextMeshProUGUI lvlUpText;
+    public TextMeshProUGUI SurvivalTimeBonusText;
 
     private void Start()
     {
-        hp = maxHP;
+        defaultMaxHP = PlayerPrefs.GetInt("defaultMaxHP", 2);
+        defaultRegenTime = PlayerPrefs.GetFloat("defaultRegenTime", 150f);
+        defaultReflectionCooldown = PlayerPrefs.GetFloat("defaultReflectionCooldown", 15f);
+        defaultReflectionActive = PlayerPrefs.GetFloat("defaultReflectionActive", 1.5f);
+
+        hp = defaultMaxHP;
         untilRegenTime = defaultRegenTime;
-        lvlUpText.gameObject.SetActive(false);
+        lvlUpText.color = new Color(255, 255, 255, 0);
+        SurvivalTimeBonusText.color = new Color(255, 255, 255, 0);
         Time.timeScale = 1f;
         Cursor.visible = false;
     }
@@ -60,8 +73,8 @@ public class Player : MonoBehaviour
     {
 
         if (godmode) { hp = 10000; alive = true;
-            healthStatus.text = "Godmode";
-            healthStatus.color = Color.yellow;
+            healthStatusText.text = "Godmode";
+            healthStatusText.color = Color.yellow;
             reflectionActiveTimer = 1000;
             reflectionCountdownTimer = 0; }
 
@@ -78,6 +91,15 @@ public class Player : MonoBehaviour
         if (alive)
         {
             #region other
+
+            if (summaryTime / 60 > totalMinutes)
+            {
+                int money = PlayerPrefs.GetInt("PlayerMoney");
+                PlayerPrefs.SetInt("PlayerMoney", money + 25);
+
+                totalMinutes++;
+                StartCoroutine(FadeText(SurvivalTimeBonusText,5));
+            }
 
             var newTime = Time.deltaTime;
             untilRegenTime -= newTime;
@@ -114,13 +136,13 @@ public class Player : MonoBehaviour
             if (hp <= 0)
             {
                 alive = false;
-                healthStatus.color = Color.black;
+                healthStatusText.color = Color.black;
                 EndGame();
             }
             else if (!godmode)
             {
-                healthStatus.color = Color.white;
-                healthStatus.text = "Health: " + hp.ToString() + "/" + maxHP.ToString();
+                healthStatusText.color = Color.white;
+                healthStatusText.text = "Health: " + hp.ToString() + "/" + defaultMaxHP.ToString();
             }
 
             if (reflection)
@@ -194,7 +216,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            healthStatus.text = "You dead";
+            healthStatusText.text = "You dead";
             Cursor.visible = true;
         }
     }
@@ -220,7 +242,7 @@ public class Player : MonoBehaviour
 
     private void Heal(int healCount)
     {
-        if (hp < maxHP)
+        if (hp < defaultMaxHP)
         {
             hp += healCount;
         }
@@ -237,8 +259,10 @@ public class Player : MonoBehaviour
 
             var toptimeMins = TimeSpan.FromSeconds(toptimeSeconds);
             var newTimeMins = TimeSpan.FromSeconds(summaryTime);
-            lvlUpText.text = string.Format("New record! \n Was {0:D2}:{1:D2}, and now it's ", (int)toptimeMins.TotalMinutes, toptimeMins.Seconds) +
-                 string.Format("and now {0:D2}:{1:D2}", (int)newTimeMins.TotalMinutes, newTimeMins.Seconds);
+            lvlUpText.text = string.Format("New record! \n Was {0:D2}:{1:D2},",
+                (int)toptimeMins.TotalMinutes, toptimeMins.Seconds) +
+                 string.Format("and now {0:D2}:{1:D2}",
+                 (int)newTimeMins.TotalMinutes, newTimeMins.Seconds);
 
             lvlUpText.rectTransform.sizeDelta = new Vector2(900, lvlUpText.rectTransform.sizeDelta.y);
             lvlUpText.gameObject.SetActive(true);
@@ -254,7 +278,7 @@ public class Player : MonoBehaviour
         switch (bonusNum)
         {
             case 0:
-                maxHP++;
+                defaultMaxHP++;
                 ShowLevelUpText("Max hp increased");
                 break;
             case 1:
@@ -318,18 +342,32 @@ public class Player : MonoBehaviour
 
     public void ShowLevelUpText(string levelBonus)
     {
-        StartCoroutine(DisplayLevelUpText(levelBonus));
+        DisplayLevelUpText(levelBonus);
     }
 
-    IEnumerator DisplayLevelUpText(string levelBonus)
+    public void DisplayLevelUpText(string levelBonus)
     {
         lvlUpText.text = "Level up: " + playerLvl +
             "\n" + levelBonus;
-        lvlUpText.gameObject.SetActive(true);
 
+        StartCoroutine(FadeText(lvlUpText, 3f));
+    }
 
-        yield return new WaitForSeconds(3);
-        lvlUpText.gameObject.SetActive(false);
+    IEnumerator FadeText(TextMeshProUGUI textToFade, float duration)
+    {
+        textToFade.color = new Color(255, 255, 255, 255);
+        float elapsedTime = 0f;
+        Color startColor = textToFade.color;
+
+        while (elapsedTime < duration)
+        {
+            float alpha = 1f - (elapsedTime / duration);
+            textToFade.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        textToFade.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
     }
 
     void OnTriggerEnter(Collider other)
