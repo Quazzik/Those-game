@@ -48,8 +48,13 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI healthStatus;
     public TextMeshProUGUI lvlUpText;
 
+    // Add animation
+    public Animator animator;
+
     private void Start()
     {
+        animator = GetComponent<Animator>();
+
         hp = maxHP;
         untilRegenTime = defaultRegenTime;
         lvlUpText.gameObject.SetActive(false);
@@ -361,6 +366,15 @@ public class Player : MonoBehaviour
 
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+
+        if (Math.Abs(verticalInput) > 0) 
+        {
+            animator.SetBool("IsMoving", true);
+        }
+        if (verticalInput == 0)
+        {
+            animator.SetBool("IsMoving", false);
+        }
 
         Vector3 moveDirection = new Vector3(horizontalInput, 0, verticalInput);
         transform.Translate(moveDirection * Time.deltaTime * 5f);
