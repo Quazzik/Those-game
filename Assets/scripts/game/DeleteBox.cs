@@ -28,7 +28,7 @@ public class BoxDelete : MonoBehaviour
         wall4.GetComponentInChildren<Renderer>().material = newMaterial;
         wall5.GetComponentInChildren<Renderer>().material = newMaterial;
         wall6.GetComponentInChildren<Renderer>().material = newMaterial;
-        
+
         wallMaterial = newMaterial;
 
         initialColor = wallMaterial.color;
@@ -38,10 +38,24 @@ public class BoxDelete : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        if (transform.position.y <= 1)
+        if (other.CompareTag("Ground") 
+            && wall1 != null
+            && wall2 != null
+            && wall3 != null
+            && wall4 != null
+            && wall5 != null
+            && wall6 != null)
         {
+            // Применяем физику на объекты 
+            wall1.AddComponent<Rigidbody>();
+            wall2.AddComponent<Rigidbody>();
+            wall3.AddComponent<Rigidbody>();
+            wall4.AddComponent<Rigidbody>();
+            wall5.AddComponent<Rigidbody>();
+            wall6.AddComponent<Rigidbody>();
+
             StartCoroutine(FadeOut(newMaterial, wall1));
             StartCoroutine(FadeOut(newMaterial, wall2));
             StartCoroutine(FadeOut(newMaterial, wall3));
