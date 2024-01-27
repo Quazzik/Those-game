@@ -37,4 +37,9 @@ public class UIButtons : MonoBehaviour
         }
         Destroy(gameObject.GetComponentInParent<Canvas>().gameObject);
     }
+
+    public void ToShop()
+    {
+        SceneManager.LoadScene("Shop");
+    }
 }
