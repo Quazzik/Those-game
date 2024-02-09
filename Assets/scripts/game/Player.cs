@@ -407,11 +407,11 @@ public class Player : MonoBehaviour
 
         if (Math.Abs(verticalInput) > 0)
         {
-            animator.SetBool("IsMoving", true);
+            animator.SetBool("IsMove", true);
         }
         if (verticalInput == 0)
         {
-            animator.SetBool("IsMoving", false);
+            animator.SetBool("IsMove", false);
         }
 
         Vector3 moveDirection = new Vector3(horizontalInput, 0, verticalInput);
