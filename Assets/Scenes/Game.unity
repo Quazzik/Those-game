@@ -756,6 +756,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -853,6 +854,28 @@ MonoBehaviour:
   distance: 14
   baseRotationSpeed: 10
   zoomSpeed: 4
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5067140ad19c564f964fb0606c4c2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item:
+    Money: 500
+    Reflection: 1
+    Armor: 1
+    Heals: 3
+    Bottle_blue: 1
+    Bottle_red: 1
+    Damage: 1
+    Item_1: 1
+    Item_2: 1
 --- !u!114 &1182655101 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5673303143003172374, guid: 3b20e54a929917f4a9ed403ca3be72ef, type: 3}
@@ -892,6 +915,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8066322883687426139, guid: ef725e2d03c79b84aaed4b844e445f70, type: 3}
+      propertyPath: obj
+      value: 
+      objectReference: {fileID: 963194225}
     - target: {fileID: 8066322883687426139, guid: ef725e2d03c79b84aaed4b844e445f70, type: 3}
       propertyPath: lvlUpText
       value: 

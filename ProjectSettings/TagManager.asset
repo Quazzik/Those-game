@@ -9,6 +9,14 @@ TagManager:
   - Turret
   - reflectedBullet
   - MainMenu
+  - ReflictionBuster
+  - ArmorBuster
+  - HealsBuster
+  - Bottle_blueBuster
+  - Bottle_redBuster
+  - DamageBuster
+  - Item_1Buster
+  - Item_2Buster
   layers:
   - Default
   - TransparentFX

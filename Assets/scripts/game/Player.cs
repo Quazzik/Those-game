@@ -57,12 +57,14 @@ public class Player : MonoBehaviour
 
     public Animator animator;
 
+    private ControllerJSON json;
+    public GameObject obj;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-
-        defaultMaxHP = PlayerPrefs.GetInt("defaultMaxHP", 2);
+        json = obj.GetComponent<ControllerJSON>();
+        defaultMaxHP = PlayerPrefs.GetInt("defaultMaxHP", 2 * Convert.ToInt32(json.item.Heals));
         defaultRegenTime = PlayerPrefs.GetFloat("defaultRegenTime", 150f);
         defaultReflectionCooldown = PlayerPrefs.GetFloat("defaultReflectionCooldown", 15f);
         defaultReflectionActive = PlayerPrefs.GetFloat("defaultReflectionActive", 1.5f);
