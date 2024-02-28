@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1571025737778321339}
-  - component: {fileID: 4690095999038743461}
   - component: {fileID: 7201131745415570337}
   - component: {fileID: 8894555724733972110}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: turret1full
   m_TagString: Turret
   m_Icon: {fileID: 0}
@@ -28,23 +27,15 @@ Transform:
   m_GameObject: {fileID: 605043274587384408}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4850426, y: 0.00000047683716, z: 3.2901914}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5493448228683853130}
   - {fileID: 6777005543384947839}
   - {fileID: 865041720978391998}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &4690095999038743461
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605043274587384408}
-  m_Mesh: {fileID: -2432090755550338912, guid: 39b5169683e2dce439ae9a4b3640e074, type: 3}
 --- !u!54 &7201131745415570337
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -84,7 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a0d3716af1a424ea35598700bb24b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onGround: 0
   hp: 1
+  xpBonus: 0
 --- !u!1 &2659913748313265314
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +87,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5493448228683853130}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: bullet turrets v1-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +123,7 @@ GameObject:
   - component: {fileID: 2989414930248252011}
   - component: {fileID: 2225331520505391416}
   - component: {fileID: 8315732155488544680}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BulletForTurr1
   m_TagString: BulletTag
   m_Icon: {fileID: 0}
@@ -249,7 +242,7 @@ GameObject:
   - component: {fileID: 7288450392664113525}
   - component: {fileID: 4179536104607480425}
   - component: {fileID: 9121292664801259543}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3222457028689189662}
   - component: {fileID: 4039534191850748312}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 6828310215918207912}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.55, z: 1}
+  m_LocalPosition: {x: 0, y: -0.45, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -387,10 +380,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d917bf721e75147a8a638a00a62328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 4677707495810291780}
+  bulletPrefab: {fileID: 4888040127368157709, guid: 4489cd3ed3ab8964abc9843fcec39984, type: 3}
   firePoint: {fileID: 3222457028689189662}
   bulletSpeed: 10
-  shootDelay: 5
+  startShootDelay: 0
+  standartShootDelay: 5
 --- !u!1 &7531280408665766831
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +396,7 @@ GameObject:
   - component: {fileID: 5473029008374647571}
   - component: {fileID: 6217679993492079076}
   - component: {fileID: 6638850766553889950}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +480,7 @@ GameObject:
   - component: {fileID: 6228242238519977912}
   - component: {fileID: 7346951684541153202}
   - component: {fileID: 7515719234922099655}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: bullet turrets v1-4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -591,7 +585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6777005543384947839}
   - component: {fileID: 4329290091360248460}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: FullTurret1Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,3 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireTarget: {fileID: 0}
   rotationSpeed: 5
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1
+  seePlayer: 1
