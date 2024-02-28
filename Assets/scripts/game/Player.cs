@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     private float reflectionActiveTimer = 0f;
 
     private GameObject ingameMenuPanel;
+    public GameObject menuPanel;
     public TextMeshProUGUI playerLvlText;
     public TextMeshProUGUI playerXpText;
     public TextMeshProUGUI totalTimeText;
@@ -55,12 +56,15 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI SurvivalTimeBonusText;
 
     public Animator animator;
+
+    private ControllerJSON json;
     public GameObject obj;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        defaultMaxHP = PlayerPrefs.GetInt("defaultMaxHP", 2);
+        json = obj.GetComponent<ControllerJSON>();
+        defaultMaxHP = PlayerPrefs.GetInt("defaultMaxHP", 2 * Convert.ToInt32(json.item.Heals));
         defaultRegenTime = PlayerPrefs.GetFloat("defaultRegenTime", 150f);
         defaultReflectionCooldown = PlayerPrefs.GetFloat("defaultReflectionCooldown", 15f);
         defaultReflectionActive = PlayerPrefs.GetFloat("defaultReflectionActive", 1.5f);
@@ -80,6 +84,16 @@ public class Player : MonoBehaviour
             healthStatusText.color = Color.yellow;
             reflectionActiveTimer = 1000;
             reflectionCountdownTimer = 0; }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (ingameMenuPanel != null)
+            {
+                ChangeMenu(false);
+            }
+            else
+                ChangeMenu(true);
+        }
 
         if (alive)
         {
@@ -222,6 +236,7 @@ public class Player : MonoBehaviour
             isMenuActive = true;
             Time.timeScale = 0f;
             Cursor.visible = true;
+            ingameMenuPanel = Instantiate(menuPanel);
         }
         else
         {
