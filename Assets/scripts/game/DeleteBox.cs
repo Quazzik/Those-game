@@ -35,34 +35,20 @@ public class BoxDelete : MonoBehaviour
 
         targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0f);
 
-    }
+        wall1.AddComponent<Rigidbody>();
+        wall2.AddComponent<Rigidbody>();
+        wall3.AddComponent<Rigidbody>();
+        wall4.AddComponent<Rigidbody>();
+        wall5.AddComponent<Rigidbody>();
+        wall6.AddComponent<Rigidbody>();
 
-    // Update is called once per frame
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Ground") 
-            && wall1 != null
-            && wall2 != null
-            && wall3 != null
-            && wall4 != null
-            && wall5 != null
-            && wall6 != null)
-        {
-            // Применяем физику на объекты 
-            wall1.AddComponent<Rigidbody>();
-            wall2.AddComponent<Rigidbody>();
-            wall3.AddComponent<Rigidbody>();
-            wall4.AddComponent<Rigidbody>();
-            wall5.AddComponent<Rigidbody>();
-            wall6.AddComponent<Rigidbody>();
+        StartCoroutine(FadeOut(newMaterial, wall1));
+        StartCoroutine(FadeOut(newMaterial, wall2));
+        StartCoroutine(FadeOut(newMaterial, wall3));
+        StartCoroutine(FadeOut(newMaterial, wall4));
+        StartCoroutine(FadeOut(newMaterial, wall5));
+        StartCoroutine(FadeOut(newMaterial, wall6));
 
-            StartCoroutine(FadeOut(newMaterial, wall1));
-            StartCoroutine(FadeOut(newMaterial, wall2));
-            StartCoroutine(FadeOut(newMaterial, wall3));
-            StartCoroutine(FadeOut(newMaterial, wall4));
-            StartCoroutine(FadeOut(newMaterial, wall5));
-            StartCoroutine(FadeOut(newMaterial, wall6));
-        }
     }
     private IEnumerator FadeOut(Material material, GameObject obj)
     {

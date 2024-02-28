@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class TurretHead : MonoBehaviour
@@ -6,6 +7,10 @@ public class TurretHead : MonoBehaviour
     public float rotationSpeed = 5f;
     public LayerMask obstacleMask;
     public bool seePlayer;
+    private void Start()
+    {
+        fireTarget = GameObject.FindWithTag("Player")?.transform;
+    }
 
     void Update()
     {

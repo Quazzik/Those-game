@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45047772, g: 0.4983428, b: 0.56369287, a: 1}
+  m_IndirectSpecularColor: {r: 0.45046717, g: 0.49832296, b: 0.56363934, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -313,6 +313,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CubeSurvivor
       objectReference: {fileID: 0}
+    - target: {fileID: 2920113905120537899, guid: 2f917ebe25c56e24c8dc84b043c0dfd1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6579176626677133298, guid: 2f917ebe25c56e24c8dc84b043c0dfd1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -370,6 +374,7 @@ GameObject:
   - component: {fileID: 346753489}
   - component: {fileID: 346753488}
   - component: {fileID: 346753491}
+  - component: {fileID: 346753492}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -465,6 +470,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 890895893}
   rotationSpeed: 5
+--- !u!114 &346753492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346753487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a7e2df8c8fe3e4a92355259f226b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confirmationMenuPrefab: {fileID: 4778531554871843030, guid: 0f25dba3f05ad6c43ba5d7edcc02d464, type: 3}
 --- !u!1 &852287485
 GameObject:
   m_ObjectHideFlags: 0
